@@ -1,3 +1,7 @@
+/*  Notes App 
+    Created by Osama Malik as part of Andrew Mead's "The Complete Node.js Developer Course (3rd Edition)"
+    May 2020
+*/
 
 const chalk = require('chalk')
 const yargs = require('yargs')
@@ -6,7 +10,7 @@ const notes = require('./notes.js')
 // Customize yargs version
 yargs.version('1.1.0')
 
-// Create add command
+/* Add command: Add note with specified title */
 yargs.command({
     command: 'add',
     describe: 'Add a new note',
@@ -22,35 +26,49 @@ yargs.command({
             type: 'string'
         }
     },
-    handler: function(argv) {
+    handler(argv) {
         notes.addNote(argv.title, argv.body)
     }
 })
 
-// Create remove command
+/* Remove command: Remove note with specified title */
 yargs.command({
     command: 'remove',
     describe: 'Remove a note',
-    handler: function() {
-        console.log('Removing the note!')
+    builder: {
+        title: {
+            describe: 'Title of note to be removed',
+            demandOption: true,
+            type: 'string'
+        }
+    },
+    handler(argv) {
+        notes.removeNote(argv.title)
     }
 })
 
-// Create list command
+/* List command: List titles of all notes */
 yargs.command({
     command: 'list',
     describe: 'List the notes',
-    handler: function() {
-        console.log('Listing the notes!')
+    handler() {
+        notes.listNotes()
     }
 })
 
-// Create read command
+/* Read command: Display body of note with specified title */
 yargs.command({
     command: 'read',
     describe: 'Read a note',
-    handler: function() {
-        console.log('Reading a note')
+    builder: {
+        title: {
+            describe: 'Title of note to read',
+            demandOption: true,
+            type: 'string'
+        }
+    },
+    handler(argv) {
+        notes.readNote(argv.title)
     }
 })
 
